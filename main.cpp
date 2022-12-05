@@ -1,9 +1,11 @@
 #include <iostream>
+#include <math.h>
 
 using namespace std;
 
-int RSAencryption(int);
+double* RSAencryption(int, double*);
 int gcd(int, int);
+double findRSAkey(double, double);
 
 int main(){
     int pin = 10000;
@@ -19,29 +21,51 @@ int main(){
     cout << "You entered " << pin << endl;
 
     //Encrypt the pin using a non-quantum-safe method
-    int RSApin = RSAencryption(pin);
+    double RSAarray[3];
+    RSAencryption(pin, RSAarray);
+
+    cout << "Encrypted pin: " << RSAarray[0] << endl;
+
+    //Display public key to user
+    cout << "The public key is (n, e): " << "(" << RSAarray[1] << ", " << RSAarray[2] << ")" << endl;
+
+    //Crack the RSA code
+    double decryptionKey = findRSAkey(RSAarray[1], RSAarray[2]);
+    cout << "Cracking the code. Encryption key: " << decryptionKey << endl;
+
+    //Decode pin
+    double decodedPIN = pow(RSAarray[0], fmod(decryptionKey, RSAarray[1]));
+    cout << "The decoded pin is: " << decodedPIN << endl;
 
 }
 
-int RSAencryption(int pNum){
+double* RSAencryption(int pNum, double* returnArray){
     //Declaration of variables needed for RSA algorithm
-    int p = 13;
-    int q = 11;
-    int n = p * q;
-    int tempGCD;
-    int phi = (p - 1) * (q - 1);
+    double  p = 3;
+    double q = 5;
+    double n = p * q;
+    double tempGCD;
+    double phi = (p - 1) * (q - 1);
 
     //Get public key
-
-
-    //Get private key
-
+    double e = 2;
+    while(e < phi){
+        tempGCD = gcd(e, phi);
+        if(tempGCD == 1)
+            break;
+        else
+            e++;
+    }
 
     //Encrypt pin number
-    int pin = 0;
+    double c = pow(pNum, fmod(e, n));
 
-    //Return results
-    return pin;
+    //Fill return array
+    returnArray[0] = c;
+    returnArray[1] = n;
+    returnArray[2] = e;
+
+    return returnArray;
 }
 
 int gcd(int a, int b){
@@ -58,4 +82,24 @@ int gcd(int a, int b){
     }
 
     return b;
+}
+
+double findRSAkey(double n, double e){
+    double d;
+
+    //Find prime factors of n
+    //Find p
+    double p = 2;
+    while((fmod(n, p)) != 0){
+        p++;
+    }
+    
+    //Find q
+    double q = n / p;
+
+    //Find decrpytion key
+    double phi = (p-1) * (q-1);
+    d = fmod(pow(e, -1), phi);
+
+    return d;
 }
