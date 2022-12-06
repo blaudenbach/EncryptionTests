@@ -2,7 +2,10 @@
  * @file RSAcracked.cpp
  * 
  * @author Brandon Laudenbach
- * This program gets a 4-digit pin from the user, encrypts it using the RSA system, and cracks the code to decrypt it.
+ * 
+ * @brief This program gets a 4-digit pin from the user, encrypts it using the RSA system, and cracks the code to decrypt it.
+ * 
+ * @version 1.0
  * 
  * @date 2022-12-06
  * 
@@ -21,7 +24,11 @@ double findRSAkey(double, double);
 
 /**
  * Main program.
- * This program gets user input for a 4-digit pin, encrypts it with the RSA system, cracks the code and decrypts it.
+ * 
+ * @brief This program gets user input for a 4-digit pin, encrypts it with the RSA system, cracks the code and decrypts it.
+ * 
+ * @pre Program is run
+ * @post Program is completed
  * 
  * @return int : main program return value
  */
@@ -78,8 +85,11 @@ int main(){
 }
 
 /**
- * This function takes an integer (the user's pin) and encrypts it with the RSA system.
+ * @brief This function takes an integer (the user's pin) and encrypts it with the RSA system.
  * It fills the given empty array with the encrypted pin and the public key used for encryption.
+ * 
+ * @pre main program calls passes user pin into function.
+ * @post array is filled with desired values
  * 
  * @param data  The data to be encrypted. In this case, it will be the user's 4-digit pin.
  * @param returnArray   An empty array to be filled with the encrypted message and public key information.
@@ -132,7 +142,10 @@ double* RSAencryption(int data, double* returnArray){
 }
 
 /**
- * This function takes two integer, computes their greatest common divisor, and returns it.
+ * @brief This function takes two integers, computes their greatest common divisor, and returns it.
+ * 
+ * @pre Function is called and passed two integers
+ * @pre The greatest common divisor is returned
  * 
  * @param a     The first integer whose greatest common divisor is desired
  * @param b     The second integer whose greatest common divisor is desired
@@ -161,7 +174,10 @@ int gcd(int a, int b){
 }
 
 /**
- * This function takes the two parts of the public key then finds the decryption key and returns it.
+ * @brief This function takes the two parts of the public key then finds the decryption key and returns it.
+ * 
+ * @pre Main program passes the public key as parameters
+ * @post Decryption key is returned
  * 
  * @param n     The n value of the public key
  * @param e     The e value of the public key
